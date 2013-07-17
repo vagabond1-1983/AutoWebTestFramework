@@ -10,6 +10,8 @@ import com.kong.wd.model.Suite;
 import com.kong.wd.util.XmlRulesDriver;
 import org.openqa.selenium.WebDriver;
 
+import java.net.URL;
+
 /**
  * Created with IntelliJ IDEA.
  * User: devin
@@ -18,13 +20,13 @@ import org.openqa.selenium.WebDriver;
  * To change this template use File | Settings | File Templates.
  */
 public class HandQter {
-    public  static void  main(String[] args) {
+    public static void main(String[] args) {
         String inputFile = "AutoWebTestFramework/UseCase/BaiduDWTest.xml";
         String roleFile = "AutoWebTestFramework/UseCase/baidu-rules.xml";
         XmlRulesDriver dataDriver = new XmlRulesDriver(inputFile, roleFile);
         Suite suite = dataDriver.xml2Bean();
         WebDriver driver = null;
-        if(suite != null) {
+        if (suite != null) {
             Handler handler = null;
 
             // Initialize header for environment
@@ -33,29 +35,28 @@ public class HandQter {
             handler = null;
 
             // Deal with one case
-            for(Case item: suite.getCases()) {
-                if(driver != null) {
-                    handler =  new TestCaseHandler(driver);
-                    driver = handler.handle(item);
-                    handler = null;
+            for (Case item : suite.getCases()) {
+                if (handler == null) {
+                    handler = new TestCaseHandler(driver);
+                }
 
-                    // Deal with steps iterator
-                    //TODO item.getSteps().getSteps().... writeen format is very strengy.
-                    for(Step step : item.getSteps().getSteps()) {
-                        if(driver != null) {
-                            handler = new StepHandler(driver);
-                            driver = handler.handle(step);
-                            handler = null;
-                        }
+                driver = handler.handle(item);
+
+                // Deal with steps iterator
+                handler = new StepHandler(driver);
+                for (Step step : item.getSteps()) {
+                    if (driver != null) {
+                        driver = handler.handle(step);
                     }
                 }
+                handler = null;
             }
+        }
 
-            // Close driver and test object browser
-            if(driver != null) {
+        // Close driver and test object browser
+        if (driver != null) {
 //                driver.quit();
-                driver.close();
-            }
+            driver.close();
         }
     }
 }

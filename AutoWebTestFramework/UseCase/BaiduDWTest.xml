@@ -3,6 +3,31 @@
 	<SETTINGS browser="firefox" seleniumServer="127.0.0.1"
 		seleniumPort="4444" application_url="http://www.baidu.com">
 	</SETTINGS>
+    <CASE name="Login Baidu" timeout="10">
+        <STEPS>
+            <!--
+            <STEP index="1" type="CHECK" name="Check login href exist">
+                <DESCRIPTION by="xpath" action="//*[@id='lb']" />
+            </STEP>
+            -->
+            <STEP index="2" type="CLICK" name="Login">
+                <DESCRIPTION by="xpath" action="//*[@id='lb']" />
+            </STEP>
+            <STEP index='3' type='INPUT' name="Enter user name">
+                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__userName']" value="vagabond1_1983" />
+            </STEP>
+            <STEP index='4' type='INPUT' name="Enter password">
+                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__password']" value="Vagabond1" />
+            </STEP>
+            <STEP index="6" type="CLICK" name="Login Button">
+                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__submit']" />
+            </STEP>
+            <STEP index='7' type='CAPTURE' name="Login Baidu">
+                <DESCRIPTION value="Login Baidu Screen" />
+            </STEP>
+        </STEPS>
+    </CASE>
+
 	<CASE name="在Google中查询IBM developerWorks中国社区" timeout="10">
 		<STEPS>
 			<STEP index="1" type="INPUT" name="在Google查询输入框，输入ibm developerworks cn">

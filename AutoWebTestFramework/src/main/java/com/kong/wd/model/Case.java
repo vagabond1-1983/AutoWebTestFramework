@@ -1,21 +1,25 @@
 package com.kong.wd.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Case implements IBean {
-	private Steps steps;
-	private String name;
+    private List<Step> steps;
+
+    private String name;
     private Integer timeout;
-
 	public Case() {
-		super();
+        steps = new ArrayList<Step>();
 	}
 
-	public Steps getSteps() {
-		return steps;
-	}
+    public List<Step> getSteps() {
+        return steps;
+    }
 
-	public void setSteps(Steps steps) {
-		this.steps = steps;
-	}
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
 
     public String getName() {
 		return name;
@@ -33,9 +37,16 @@ public class Case implements IBean {
         this.timeout = timeout;
     }
 
+    public void addStep(Step step) {
+        if(steps == null) {
+            steps = new ArrayList<Step>();
+        }
+        steps.add(step);
+    }
+
 	@Override
 	public String toString() {
-		return "Case[ name="+name+", timeout="+timeout+", [steps=" + steps + "]";
+		return "Case[ name="+name+", timeout="+timeout+", [steps=" + steps.toArray().toString() + "]";
 	}
     
     

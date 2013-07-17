@@ -27,7 +27,7 @@ public class ImageUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(
 				"yyyyMMdd HHmmss");
 		String currentDateTime = sdf.format(new Date());
-		fileName = fileName + currentDateTime;
+		fileName = fileName + "-" + currentDateTime;
 		String imagePath = screenshotPath + File.separator + fileName + ".png";
 		try {
 			String base64Screenshot = ((TakesScreenshot) driver)
