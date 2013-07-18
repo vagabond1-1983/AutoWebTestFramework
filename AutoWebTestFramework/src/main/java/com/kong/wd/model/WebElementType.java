@@ -8,5 +8,5 @@ package com.kong.wd.model;
  * To change this template use File | Settings | File Templates.
  */
 public enum WebElementType {
-    XPATH;
+    xpath;
 }
