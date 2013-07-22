@@ -2,18 +2,18 @@ package com.kong.wd.handle;
 
 import com.kong.wd.model.IBean;
 import com.kong.wd.model.Settings;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 
 public class InitEnvHandler extends Handler {
 	WebDriver driver = null;
-	private static final Logger logger = Logger.getLogger(InitEnvHandler.class);
+	private static final Logger logger = LogManager.getLogger(InitEnvHandler.class);
 
     @Override
 	public WebDriver handle(IBean settings) {

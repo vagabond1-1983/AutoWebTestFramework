@@ -7,13 +7,14 @@ import org.apache.commons.digester3.binder.DigesterLoader;
 import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
 
 import com.kong.wd.model.Suite;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 public class XmlRulesDriver {
     File input          ;
     final File rules;
-    public static Logger logger = Logger.getLogger(XmlRulesDriver.class);
+    public static Logger logger = LogManager.getLogger(XmlRulesDriver.class);
 
     /*public static void main(String[] args) {
 		Suite s = xml2Bean("WebDriverFrame4j/UseCase/BaiduDWTest.xml", "WebDriverFrame4j/UseCase/baidu-rules.xml");

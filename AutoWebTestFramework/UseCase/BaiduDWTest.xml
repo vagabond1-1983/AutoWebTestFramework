@@ -30,12 +30,15 @@
 
 	<CASE name="在Google中查询IBM developerWorks中国社区" timeout="10">
 		<STEPS>
-			<STEP index="1" type="INPUT" name="在Google查询输入框，输入ibm developerworks cn">
-				<DESCRIPTION by="xpath" action="//*[@id='kw']" value="ibm developerworks cn" />
+			<STEP index="1" type="INPUT" name="Enter selenium in Baidu Once textbox">
+				<DESCRIPTION by="xpath" action="//*[@id='kw']" value="selenium" />
 			</STEP>
 			<STEP index="2" type="CLICK" name="单击查询按钮，执行查询">
 				<DESCRIPTION by="xpath" action="//*[@id='su']" />
 			</STEP>
+            <STEP index="2" type="CHECKPOINT" name="check the href is same">
+                <DESCRIPTION by="xpath" action="//*[@id='content_left']/table /tbody/tr/td/h3/a" value="Selenium - Web Browser Automation"/>
+            </STEP>
 			<STEP index='3' type='CAPTURE' name="测试截图函数">
 				<DESCRIPTION value="截图测试XML" />
 			</STEP>

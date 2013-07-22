@@ -1,19 +1,16 @@
 package com.kong.wd.handle;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import com.kong.wd.util.ImageUtil;
-import com.kong.wd.util.WebObjectUtil;
-import com.kong.wd.model.ActionType;
 import com.kong.wd.model.IBean;
 import com.kong.wd.model.Step;
-import com.kong.wd.model.WebElementType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StepHandler extends Handler {
+    private static Logger logger = LogManager.getLogger(StepHandler.class);
     private Step step;
     private WebDriver driver;
+    private TestElementAction testElementAction = null;
 
     public StepHandler(WebDriver driver) {
         this.driver = driver;
@@ -21,14 +18,15 @@ public class StepHandler extends Handler {
 
     @Override
     public WebDriver handle(IBean bean) {
-        step = (Step) bean;
-        TestElementAction testElementAction = null;
 
+        step = (Step) bean;
+        logger.trace("Start to handle step: [" + step.getIndex() + "] " + step.getName());
 
         // Set test element
         testElementAction = new TestElementAction(driver, step.getType(), step.getDescription());
 
         testElementAction.simulateUserAction();
+        logger.trace("End with handle step: [" + step.getIndex() + "] " + step.getName());
 
         return driver;
     }
