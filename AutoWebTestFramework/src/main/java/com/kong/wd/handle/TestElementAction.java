@@ -4,8 +4,9 @@ import com.kong.wd.model.ActionType;
 import com.kong.wd.model.Description;
 import com.kong.wd.model.WebElementType;
 import com.kong.wd.util.ImageUtil;
+import com.kong.wd.util.LogUtil;
 import com.kong.wd.util.WebObjectUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,14 +19,16 @@ import org.openqa.selenium.WebElement;
  * To change this template use File | Settings | File Templates.
  */
 public class TestElementAction {
-    private static Logger logger = Logger.getLogger(TestElementAction.class);
-
+    private static Logger logger = LogUtil.getLogger(TestElementAction.class);
     private WebDriver driver;
     private WebElement testElement;
     private Description description;
     private ActionType actionType;
-    private String action;
+    private String context;
     public TestElementAction(WebDriver driver, String type, Description description) {
+        if(driver == null) {
+            throw new NullPointerException();
+        }
         this.driver = driver;
         this.description = description;
         this.actionType = ActionType.valueOf(type);
@@ -39,16 +42,16 @@ public class TestElementAction {
         // find element with which way like xpath, css, id
         String byKeyword = description.getBy();
         // Value of keyboard or part of file name of capture screenshot
-        String value = description.getValue();
+        String expression = description.getValue();
         // keyword of by. id, xpath
-        action = description.getAction();
+        context = description.getAction();
 
         // Find element
         if(actionType != ActionType.CHECKPOINT) {
-            findElement(byKeyword, action);
+            findElement(byKeyword, context);
         }
         // Real simulate method
-        simulate(value);
+        simulate(expression);
 
         return false;  //To change body of created methods use File | Settings | File Templates.
     }
@@ -62,12 +65,12 @@ public class TestElementAction {
                 WebElementType.valueOf(byKeyword), action);
         // No need to check null for that element. In some condition, it will not exist like only value in description or there is checkpoint to consider
         /*if (testElement == null) {
-            throw new NoSuchElementException("You action is not supported to find: " + action.toString());
+            throw new NoSuchElementException("You context is not supported to find: " + context.toString());
         }*/
     }
 
-    private void simulate(String value) {
-        // TODO Need check the result after acting. And add more components action.
+    private void simulate(String expression) {
+        // TODO Need check the result after acting. And add more components context.
         switch (actionType) {
             case CLICK:
                 // Test Element click
@@ -78,31 +81,32 @@ public class TestElementAction {
             case INPUT:
                 // Test Element input
                 if(iselementAbility(testElement, Tag.input)) {
-                    testElement.sendKeys(value);
+                    testElement.sendKeys(expression);
                 }
                 break;
             case CAPTURE:
-                if(value != null && !value.isEmpty()) {
-                    String fileName = value;
+                if(expression != null && !expression.isEmpty()) {
+                    String fileName = expression;
                     ImageUtil.captureScreenshot(driver, fileName);
                 }
                 break;
             case CHECKPOINT:
-                if(value == null || value.isEmpty()) {
+                if(expression == null || expression.isEmpty()) {
                     throw new IllegalArgumentException();
                 }
 
-                if(new WebObjectUtil.SupportSplitPath(action).matchRegex())  {
-                    testElement = WebObjectUtil.findWebElementMatchTarget(driver,
-                            WebElementType.valueOf(description.getBy()), action, value);
+                WebElementsDigging digging = new WebElementsDigging(driver,
+                        WebElementType.valueOf(description.getBy()), context);
+
+                if(new WebObjectUtil.SupportSplitPath(context).matchRegex())  {
+                    testElement = digging.findWebElementMatchTarget(expression);
                 }      else {
-                    testElement = WebObjectUtil.intelligentFindWebElement(driver,
-                            WebElementType.valueOf(description.getBy()), action);
+                    testElement = digging.intelligentFindWebElement();
                 }
 
                 // Assert the checkpoint
                 // TODO better assert, try to recover log4j
-                System.out.println(testElement.getText() + ": " + value + "=" +testElement.getText().equals(value));
+                logger.debug(testElement.getText() + ": " + expression + "=" +testElement.getText().equals(expression));
                 break;
             default:
                 break;
@@ -113,6 +117,7 @@ public class TestElementAction {
         if(testElement == null) {
             throw new NoSuchElementException("Failed to find element");
         }
+
         logger.debug(testElement.getAttribute("id"));
 
         Tag tag = Tag.valueOf(testElement.getTagName());

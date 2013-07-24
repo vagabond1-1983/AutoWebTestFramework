@@ -7,13 +7,12 @@ import java.util.Date;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 public class ImageUtil {
-	private static final Logger logger = LogManager.getLogger(ImageUtil.class);
+	private static final Logger logger = LogUtil.getLogger(ImageUtil.class);
 
 	/**
 	 * fileName capture screen shot
