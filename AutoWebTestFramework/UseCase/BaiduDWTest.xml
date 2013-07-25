@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SUITE name="IBM开发者社区 演示测试用例">
-	<SETTINGS browser="firefox" seleniumServer="127.0.0.1"
-		seleniumPort="4444" application_url="http://www.baidu.com">
-	</SETTINGS>
+    <SETTINGS browser="firefox" seleniumServer="127.0.0.1"
+              seleniumPort="4444" application_url="http://www.baidu.com">
+    </SETTINGS>
     <CASE name="Login Baidu" timeout="10">
         <STEPS>
             <!--
@@ -11,37 +11,38 @@
             </STEP>
             -->
             <STEP index="2" type="CLICK" name="Login">
-                <DESCRIPTION by="xpath" action="//*[@id='lb']" />
+                <DESCRIPTION by="xpath" action="//*[@id='lb']"/>
             </STEP>
             <STEP index='3' type='INPUT' name="Enter user name">
-                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__userName']" value="vagabond1_1983" />
+                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__userName']" value="vagabond1_1983"/>
             </STEP>
             <STEP index='4' type='INPUT' name="Enter password">
-                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__password']" value="Vagabond1" />
+                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__password']" value="Vagabond1"/>
             </STEP>
             <STEP index="6" type="CLICK" name="Login Button">
-                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__submit']" />
+                <DESCRIPTION by="xpath" action="//*[@id='TANGRAM__PSP_10__submit']"/>
             </STEP>
             <STEP index='7' type='CAPTURE' name="Login Baidu">
-                <DESCRIPTION value="Login Baidu Screen" />
+                <DESCRIPTION value="Login Baidu Screen"/>
             </STEP>
         </STEPS>
     </CASE>
 
-	<CASE name="在Google中查询IBM developerWorks中国社区" timeout="10">
-		<STEPS>
-			<STEP index="1" type="INPUT" name="Enter selenium in Baidu Once textbox">
-				<DESCRIPTION by="xpath" action="//*[@id='kw']" value="selenium" />
-			</STEP>
-			<STEP index="2" type="CLICK" name="单击查询按钮，执行查询">
-				<DESCRIPTION by="xpath" action="//*[@id='su']" />
-			</STEP>
-            <STEP index="2" type="CHECKPOINT" name="check the href is same">
-                <DESCRIPTION by="xpath" action="//*[@id='content_left']/table /tbody/tr/td/h3/a" value="Selenium - Web Browser Automation"/>
+    <CASE name="在Google中查询IBM developerWorks中国社区" timeout="10">
+        <STEPS>
+            <STEP index="1" type="INPUT" name="Enter selenium in Baidu Once textbox">
+                <DESCRIPTION by="xpath" action="//*[@id='kw']" value="selenium"/>
             </STEP>
-			<STEP index='3' type='CAPTURE' name="测试截图函数">
-				<DESCRIPTION value="截图测试XML" />
-			</STEP>
-		</STEPS>
-	</CASE>
+            <STEP index="2" type="CLICK" name="单击查询按钮，执行查询">
+                <DESCRIPTION by="xpath" action="//*[@id='su']"/>
+            </STEP>
+            <STEP index="2" type="CHECKPOINT" name="check the href is same">
+                <DESCRIPTION by="xpath" action="//*[@id='content_left']/table /tbody/tr/td/h3/a"
+                             value="Selenium - Web Browser Automation"/>
+            </STEP>
+            <STEP index='3' type='CAPTURE' name="测试截图函数">
+                <DESCRIPTION value="截图测试XML"/>
+            </STEP>
+        </STEPS>
+    </CASE>
 </SUITE> 

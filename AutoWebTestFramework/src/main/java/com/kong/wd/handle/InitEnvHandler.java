@@ -50,7 +50,7 @@ public class InitEnvHandler extends Handler {
             // new Integer(seleniumPort).intValue());
         } else if (browser.contains("firefox")) {
                 /*System.setProperty("webdriver.firefox.profile",
-						"driver/about config.xul");
+                        "driver/about config.xul");
 				FirefoxProfile profile = new FirefoxProfile();*/
             driver = new FirefoxDriver();
         } else if (browser.contains("chrome")) {

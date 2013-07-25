@@ -13,7 +13,7 @@ public class StepHandler extends Handler {
     private TestElementAction testElementAction = null;
 
     public StepHandler(WebDriver driver) {
-        if(driver == null) {
+        if (driver == null) {
             throw new NullPointerException();
         }
         this.driver = driver;
@@ -21,7 +21,7 @@ public class StepHandler extends Handler {
 
     @Override
     public WebDriver handle(IBean bean) {
-        if(bean == null) {
+        if (bean == null) {
             throw new NullPointerException();
         }
 

@@ -8,9 +8,10 @@ public class Case implements IBean {
 
     private String name;
     private Integer timeout;
-	public Case() {
+
+    public Case() {
         steps = new ArrayList<Step>();
-	}
+    }
 
     public List<Step> getSteps() {
         return steps;
@@ -22,14 +23,14 @@ public class Case implements IBean {
 
 
     public String getName() {
-		return name;
-	}
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Integer getTimeout() {
+    public Integer getTimeout() {
         return timeout;
     }
 
@@ -38,16 +39,16 @@ public class Case implements IBean {
     }
 
     public void addStep(Step step) {
-        if(steps == null) {
+        if (steps == null) {
             steps = new ArrayList<Step>();
         }
         steps.add(step);
     }
 
-	@Override
-	public String toString() {
-		return "Case[ name="+name+", timeout="+timeout+", [steps=" + steps.toArray().toString() + "]";
-	}
-    
-    
+    @Override
+    public String toString() {
+        return "Case[ name=" + name + ", timeout=" + timeout + ", [steps=" + steps.toArray().toString() + "]";
+    }
+
+
 }

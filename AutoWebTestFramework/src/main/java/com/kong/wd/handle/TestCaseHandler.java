@@ -9,25 +9,25 @@ import com.kong.wd.model.Case;
 
 
 public class TestCaseHandler extends Handler {
-	private WebDriver driver;
-	
-	
-	public TestCaseHandler(WebDriver driver) {
-		this.driver = driver;
-	}
+    private WebDriver driver;
 
-	@Override
-	public WebDriver handle(IBean bean) {
-		if(bean == null) {
-			throw new NullPointerException("test case bean does not exist");
-		}
-		Case testBean = (Case)bean;
-		if(driver == null) {
-			throw new NullPointerException("driver is null while under test case handling");
-		}
-		driver.manage().timeouts().implicitlyWait(testBean.getTimeout(), TimeUnit.SECONDS);
-		return driver;
-	}
+
+    public TestCaseHandler(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public WebDriver handle(IBean bean) {
+        if (bean == null) {
+            throw new NullPointerException("test case bean does not exist");
+        }
+        Case testBean = (Case) bean;
+        if (driver == null) {
+            throw new NullPointerException("driver is null while under test case handling");
+        }
+        driver.manage().timeouts().implicitlyWait(testBean.getTimeout(), TimeUnit.SECONDS);
+        return driver;
+    }
 
 
 }

@@ -25,8 +25,9 @@ public class TestElementAction {
     private Description description;
     private ActionType actionType;
     private String context;
+
     public TestElementAction(WebDriver driver, String type, Description description) {
-        if(driver == null) {
+        if (driver == null) {
             throw new NullPointerException();
         }
         this.driver = driver;
@@ -47,7 +48,7 @@ public class TestElementAction {
         context = description.getAction();
 
         // Find element
-        if(actionType != ActionType.CHECKPOINT) {
+        if (actionType != ActionType.CHECKPOINT) {
             findElement(byKeyword, context);
         }
         // Real simulate method
@@ -57,7 +58,7 @@ public class TestElementAction {
     }
 
     private void findElement(String byKeyword, String action) {
-        if(byKeyword == null || byKeyword.isEmpty()) {
+        if (byKeyword == null || byKeyword.isEmpty()) {
             return;
         }
         //TODO If there are not only one element to be found. Need to navigate or find the right one.
@@ -74,39 +75,37 @@ public class TestElementAction {
         switch (actionType) {
             case CLICK:
                 // Test Element click
-                if(iselementAbility(testElement, Tag.a, Tag.input)) {
+                if (iselementAbility(testElement, Tag.a, Tag.input)) {
                     testElement.click();
                 }
                 break;
             case INPUT:
                 // Test Element input
-                if(iselementAbility(testElement, Tag.input)) {
+                if (iselementAbility(testElement, Tag.input)) {
                     testElement.sendKeys(expression);
                 }
                 break;
             case CAPTURE:
-                if(expression != null && !expression.isEmpty()) {
+                if (expression != null && !expression.isEmpty()) {
                     String fileName = expression;
                     ImageUtil.captureScreenshot(driver, fileName);
                 }
                 break;
             case CHECKPOINT:
-                if(expression == null || expression.isEmpty()) {
+                if (expression == null || expression.isEmpty()) {
                     throw new IllegalArgumentException();
                 }
 
                 WebElementsDigging digging = new WebElementsDigging(driver,
-                        WebElementType.valueOf(description.getBy()), context);
+                        WebElementType.valueOf(description.getBy()), context, expression);
 
-                if(new WebObjectUtil.SupportSplitPath(context).matchRegex())  {
-                    testElement = digging.findWebElementMatchTarget(expression);
-                }      else {
-                    testElement = digging.intelligentFindWebElement();
+                if (digging.hasNext()) {
+                    testElement = digging.next();
                 }
 
                 // Assert the checkpoint
                 // TODO better assert, try to recover log4j
-                logger.debug(testElement.getText() + ": " + expression + "=" +testElement.getText().equals(expression));
+                logger.debug(testElement.getText() + ": " + expression + "=" + testElement.getText().equals(expression));
                 break;
             default:
                 break;
@@ -114,7 +113,7 @@ public class TestElementAction {
     }
 
     private boolean iselementAbility(WebElement testElement, Tag... t) {
-        if(testElement == null) {
+        if (testElement == null) {
             throw new NoSuchElementException("Failed to find element");
         }
 
@@ -122,7 +121,7 @@ public class TestElementAction {
 
         Tag tag = Tag.valueOf(testElement.getTagName());
         for (Tag test : t) {
-            if(tag.equals(test)) {
+            if (tag.equals(test)) {
                 return true;
             }
         }

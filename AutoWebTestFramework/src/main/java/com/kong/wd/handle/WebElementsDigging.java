@@ -10,10 +10,13 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.logging.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA.
+ * Change its data structure and way to pick data. Same like ArrayList, the only different is contents of data.
+ * We should provide unified interface of accessing data to caller.
  * User: devin
  * Date: 7/24/13
  * Time: 9:41 PM
@@ -23,7 +26,13 @@ public class WebElementsDigging {
     private WebDriver driver;
     private WebElementType type;
     private String expression;
+    private String value;
     private static String regex = " ";
+    private int size = 0;
+    private int position = 0;
+    private boolean matchTargetFlag = false;
+    private boolean findTargetElementFlag = false;
+    private List<WebElement> elements;
     private static Logger logger = LogUtil.getLogger(WebElementsDigging.class);
 
     public WebElementsDigging(WebDriver driver) {
@@ -34,60 +43,123 @@ public class WebElementsDigging {
     }
 
     public WebElementsDigging(WebDriver driver, WebElementType webElementType, String expression) {
+        this(driver, webElementType, expression, null);
+    }
+
+    /**
+     * Constructor elements data for web element.
+     *
+     * @param driver         WebDriver
+     * @param webElementType way of by. Like: id, xpath, cssSelector...
+     * @param expression     Refer to action attribute in xml.
+     * @param value          Real value. It can be keys.
+     */
+    public WebElementsDigging(WebDriver driver, WebElementType webElementType, String expression, String value) {
         this(driver);
         this.type = webElementType;
         this.expression = expression;
+        this.value = value;
+
+        // Get elements from two diff ways. One is directly API call, the other need separate expression by regex.
+        elements = new ArrayList<WebElement>();
+        SupportSplitPath ssp = new SupportSplitPath(this.expression);
+        if (ssp.matchRegex()) {
+            elements = multiElementsByPattern(ssp);
+            matchTargetFlag = true;
+        } else {
+            elements = findElements();
+        }
+
+        // Set the size of collection
+        if (elements != null) {
+            size = elements.size();
+        }
     }
 
-    public WebElement intelligentFindWebElement() {
-        return intelligentPickElement(findElements());
+    public boolean hasNext() {
+        return position - size < 0;
     }
 
-    private WebElement intelligentPickElement(List<WebElement> elementList) {
-        if(elementList == null) {
+    public WebElement next() {
+        if (matchTargetFlag) {
+            position = findWebElementMatchTarget();
+            if (position <= size) {
+                return elements.get(position);
+            }
+        }
+        return intelligentPickElement();
+    }
+
+    private WebElement intelligentPickElement() {
+        if (elements == null) {
+            throw new NoSuchElementException("No element found");
+        }
+        return intelligentPickElement(this.elements);
+    }
+
+    private WebElement intelligentPickElement(List<WebElement> elements) {
+        if (elements == null) {
             throw new NoSuchElementException("elements not found");
         }
-        if (elementList.size() < 1) {
-            logger.debug("No element found after pick.");
-            return null;
-        }
 
-        if (elementList.size() == 1) {
-            log4ElementAttributes(elementList.get(0));
-            return elementList.get(0);
+        if (this.elements.equals(elements)) {
+            if (hasNext() && size == 1) {
+                position++;
+            }
+        } else {
+            if (elements.size() < 1) {
+                throw new NoSuchElementException("elements size is 0");
+
+            }
         }
-        // TODO think solution about size > 1 picking which one and if we need the sub element instead
-        return null;
+        log4ElementAttributes(elements.get(0));
+        return elements.get(0);
     }
 
     public String findDriverTitle() {
         return driver.getTitle();
     }
 
-    public WebElement findWebElementMatchTarget(String value) {
-        List<WebElement> webElementList = multiElementsByPattern(new SupportSplitPath(expression));
-        for (WebElement we : webElementList) {
-            // TODO: package table, row, cell to easy get value. Continue tomorrow. It is good way to deal with selenium not support ui components.
-            if (we.getTagName().equals("table")) {
-                com.kong.wd.Components.Table t = new com.kong.wd.Components.Table(we);
-                t.get(0).get(0).getAttrClass();
-            }
-
-            // TODO What if the value does not get from text, like attribute value
-            if (we.getText().equals(value)) {
-                logger.debug("Get the match by text. WEB ELEMENT @EXPRESSION:" + expression );
-                log4ElementAttributes(we);
-                return we;
-            }
+    // TODO bad recursive call design, try position as return value
+    // 7/25 -> 7/26
+    private int findWebElementMatchTarget() {
+        WebElement we = null;
+        if (elements == null) {
+            throw new NoSuchElementException("No element found");
         }
-        return null;  //To change body of created methods use File | Settings | File Templates.
+
+        we = elements.get(position);
+        // TODO: package table, row, cell to easy get value. Continue tomorrow. It is good way to deal with selenium not support ui components.
+        if (we.getTagName().equals("table")) {
+            com.kong.wd.Components.Table t = new com.kong.wd.Components.Table(we);
+            t.get(0).get(0).getAttrClass();
+        }
+
+        // TODO What if the value does not get from text, like attribute value
+        if (we.getText().equals(value)) {
+            findTargetElementFlag = true;
+            logger.debug("Get the match by text. WEB ELEMENT @EXPRESSION:" + expression);
+            log4ElementAttributes(we);
+            return position;
+        }
+
+        // If did not match current web element, try go to next.
+        if (hasNext()) {
+            position++;
+            findWebElementMatchTarget();
+        }
+
+        if (position <= size && findTargetElementFlag) {
+            return position;
+        }
+        return position;
     }
 
     private void log4ElementAttributes(WebElement we) {
-        elementAttributeEnum[] atts= elementAttributeEnum.values();
+        elementAttributeEnum[] atts = elementAttributeEnum.values();
         logger.debug("Web element @text: " + we.getText());
         logger.debug("Web element @tag: " + we.getTagName());
-        for(int i = 0; i < atts.length; i++)   {
+        for (int i = 0; i < atts.length; i++) {
             logger.debug("Web element @" + atts[i].name() + ": " + we.getAttribute(atts[i].name()));
         }
     }
@@ -97,13 +169,14 @@ public class WebElementsDigging {
     }
 
     private enum elementAttributeEnum {
-        id,name, target, href;
+        id, name, target, href;
     }
 
     /**
      * Find all elements match expression. If the expression has regex which follow the defination, it will call another method
      * to split expression by pattern.
-     * @param expression  id, xpath, etc.
+     *
+     * @param expression id, xpath, etc.
      * @return
      */
     private List<WebElement> findElements(String expression) {
@@ -125,6 +198,7 @@ public class WebElementsDigging {
 
     /**
      * Split expression by regex, it only consider two parts of expression, not include more than 1 regex in expression.
+     *
      * @param supportSplitPath
      * @return
      */
