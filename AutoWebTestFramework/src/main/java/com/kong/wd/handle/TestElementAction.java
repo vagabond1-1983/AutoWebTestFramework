@@ -21,56 +21,67 @@ import org.openqa.selenium.WebElement;
 public class TestElementAction {
     private static Logger logger = LogUtil.getLogger(TestElementAction.class);
     private WebDriver driver;
-    private WebElement testElement;
+
     private Description description;
+    // Mouse or keyboard action: click, input, submit
     private ActionType actionType;
+    // keyword of by. id, xpath
     private String context;
+    // by key, like id, xpath, cssSelector
+    private String byKeyword;
+    // Value of keyboard or part of file name of capture screenshot
+    private String expression;
+
+    WebElementsDigging digging = null;
 
     public TestElementAction(WebDriver driver, String type, Description description) {
         if (driver == null) {
             throw new NullPointerException();
         }
+//        this.driver = driver;
         this.driver = driver;
         this.description = description;
         this.actionType = ActionType.valueOf(type);
+
+        byKeyword = description.getBy();
+        context = description.getAction();
+        expression = description.getValue();
     }
 
+    // web tag
     private enum Tag {
         a, input, form, table
     }
 
     public boolean simulateUserAction() {
-        // find element with which way like xpath, css, id
-        String byKeyword = description.getBy();
-        // Value of keyboard or part of file name of capture screenshot
-        String expression = description.getValue();
-        // keyword of by. id, xpath
-        context = description.getAction();
-
-        // Find element
-        if (actionType != ActionType.CHECKPOINT) {
-            findElement(byKeyword, context);
+        if (byKeyword == null || byKeyword.isEmpty()) {
+            skipToCapture();
+            return true;
+        } else {
+            digging = new WebElementsDigging(driver,
+                    WebElementType.valueOf(byKeyword), context, expression);
         }
         // Real simulate method
-        simulate(expression);
+        if (digging.hasNext()) {
+            simulate(digging.next());
+            return true;
+        }
 
         return false;  //To change body of created methods use File | Settings | File Templates.
     }
 
-    private void findElement(String byKeyword, String action) {
-        if (byKeyword == null || byKeyword.isEmpty()) {
-            return;
+    private void skipToCapture() {
+        switch (actionType) {
+            case CAPTURE:
+                if (expression != null && !expression.isEmpty()) {
+                    String fileName = expression;
+                    ImageUtil.captureScreenshot(driver, fileName);
+                }
+                break;
         }
-        //TODO If there are not only one element to be found. Need to navigate or find the right one.
-        testElement = WebObjectUtil.intelligentFindWebElement(driver,
-                WebElementType.valueOf(byKeyword), action);
-        // No need to check null for that element. In some condition, it will not exist like only value in description or there is checkpoint to consider
-        /*if (testElement == null) {
-            throw new NoSuchElementException("You context is not supported to find: " + context.toString());
-        }*/
     }
 
-    private void simulate(String expression) {
+    private void simulate(WebElement testElement) {
         // TODO Need check the result after acting. And add more components context.
         switch (actionType) {
             case CLICK:
@@ -85,22 +96,10 @@ public class TestElementAction {
                     testElement.sendKeys(expression);
                 }
                 break;
-            case CAPTURE:
-                if (expression != null && !expression.isEmpty()) {
-                    String fileName = expression;
-                    ImageUtil.captureScreenshot(driver, fileName);
-                }
-                break;
+
             case CHECKPOINT:
                 if (expression == null || expression.isEmpty()) {
                     throw new IllegalArgumentException();
-                }
-
-                WebElementsDigging digging = new WebElementsDigging(driver,
-                        WebElementType.valueOf(description.getBy()), context, expression);
-
-                if (digging.hasNext()) {
-                    testElement = digging.next();
                 }
 
                 // Assert the checkpoint

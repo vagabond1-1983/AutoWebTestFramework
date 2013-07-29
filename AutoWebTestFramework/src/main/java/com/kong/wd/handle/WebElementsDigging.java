@@ -120,8 +120,12 @@ public class WebElementsDigging {
         return driver.getTitle();
     }
 
-    // TODO bad recursive call design, try position as return value
-    // 7/25 -> 7/26
+    /**
+     * Find web element from elements which matches target value using getText()
+     * Finally, return position(index) of elements.
+     *
+     * @return index of elements
+     */
     private int findWebElementMatchTarget() {
         WebElement we = null;
         if (elements == null) {

@@ -7,6 +7,7 @@ import com.kong.wd.handle.TestCaseHandler;
 import com.kong.wd.model.Case;
 import com.kong.wd.model.Step;
 import com.kong.wd.model.Suite;
+import com.kong.wd.util.WebObjectUtil;
 import com.kong.wd.util.XmlRulesDriver;
 import org.openqa.selenium.WebDriver;
 
@@ -56,7 +57,7 @@ public class HandQter {
         // Close driver and test object browser
         if (driver != null) {
 //                driver.quit();
-            driver.close();
+            WebObjectUtil.closeAllWindows(driver);
         }
     }
 }
