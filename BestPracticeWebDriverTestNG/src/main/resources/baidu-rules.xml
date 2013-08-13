@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE digester-rules PUBLIC
+        "-//Apache Commons //DTD digester-rules XML V1.0//EN"
+        "http://commons.apache.org/digester/dtds/digester-rules-3.0.dtd">
+<digester-rules>
+    <pattern value="case">
+        <object-create-rule classname="com.kong.baidu.model.TestCase"/>
+    </pattern>
+    <pattern value="case/arg">
+        <object-create-rule classname="com.kong.baidu.model.Step"/>
+        <set-properties-rule>
+            <alias attr-name="id" prop-name="id"></alias>
+            <alias attr-name="value" prop-name="value"></alias>
+        </set-properties-rule>
+
+        <set-next-rule methodname="addStep"></set-next-rule>
+
+    </pattern>
+</digester-rules>

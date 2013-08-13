@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<!--
+1. Simple for testng, especially parameter
+2. Simple for log4j, log output
+3. Simple for web driver...
+-->
+<suite name="Test Baidu" verbose="1">
+    <parameter name="setupParamProp" value="setupParam.properties"/>
+    <parameter name="baiduPagesProp" value="baiduPages.properties"/>
+    <test name="init baidu">
+        <classes>
+            <class name="com.kong.baidu.Suite"/>
+        </classes>
+    </test>
+    <test name="login baidu">
+        <!--<parameter name="test" value="before test param"></parameter>-->
+        <classes>
+            <class name="com.kong.baidu.testCases.loginCase">
+                <methods>
+                    <include name="test">
+                        <parameter name="baiduLoginCase" value="baidu_se_para_login.xml"/>
+                        <parameter name="baiduRoles" value="baidu-rules.xml"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

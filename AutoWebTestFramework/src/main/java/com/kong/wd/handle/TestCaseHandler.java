@@ -2,6 +2,7 @@ package com.kong.wd.handle;
 
 import java.util.concurrent.TimeUnit;
 
+import com.kong.wd.util.WebObjectUtil;
 import org.openqa.selenium.WebDriver;
 
 import com.kong.wd.model.IBean;
@@ -25,7 +26,7 @@ public class TestCaseHandler extends Handler {
         if (driver == null) {
             throw new NullPointerException("driver is null while under test case handling");
         }
-        driver.manage().timeouts().implicitlyWait(testBean.getTimeout(), TimeUnit.SECONDS);
+        WebObjectUtil.timeoutWait(driver, testBean.getTimeout());
         return driver;
     }
 

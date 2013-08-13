@@ -22,7 +22,8 @@ import java.net.URL;
  */
 public class HandQter {
     public static void main(String[] args) {
-        String inputFile = "AutoWebTestFramework/UseCase/BaiduDWTest.xml";
+//        String inputFile = "AutoWebTestFramework/UseCase/BaiduDWTest.xml";
+        String inputFile = "AutoWebTestFramework/UseCase/JDDWTest.xml";
         String roleFile = "AutoWebTestFramework/UseCase/baidu-rules.xml";
         XmlRulesDriver dataDriver = new XmlRulesDriver(inputFile, roleFile);
         Suite suite = dataDriver.xml2Bean();

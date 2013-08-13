@@ -75,6 +75,7 @@ public class TestElementAction {
             case CAPTURE:
                 if (expression != null && !expression.isEmpty()) {
                     String fileName = expression;
+                    WebObjectUtil.pageLoaded(driver);
                     ImageUtil.captureScreenshot(driver, fileName);
                 }
                 break;
