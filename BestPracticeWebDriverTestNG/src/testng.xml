@@ -8,11 +8,11 @@
 <suite name="Test Baidu" verbose="1">
     <parameter name="setupParamProp" value="setupParam.properties"/>
     <parameter name="baiduPagesProp" value="baiduPages.properties"/>
-    <test name="init baidu">
+    <!--<test name="init baidu">
         <classes>
             <class name="com.kong.baidu.Suite"/>
         </classes>
-    </test>
+    </test>-->
     <test name="login baidu">
         <!--<parameter name="test" value="before test param"></parameter>-->
         <classes>

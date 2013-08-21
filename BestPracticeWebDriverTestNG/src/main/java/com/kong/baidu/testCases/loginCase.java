@@ -30,6 +30,7 @@ public class loginCase {
     @Parameters({"baiduLoginCase", "baiduRoles"})
     @Test
     public void test(String paraFile, String paraRoles) {
+
         driver = Suite.getDriver();
         pagesMap = Suite.getPagesMap();
 
