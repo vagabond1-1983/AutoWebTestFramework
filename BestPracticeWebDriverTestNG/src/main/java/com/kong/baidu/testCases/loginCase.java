@@ -1,10 +1,11 @@
 package com.kong.baidu.testCases;
 
-import com.kong.baidu.Suite;
-import com.kong.baidu.model.TestCase;
+import com.kong.baidu.controller.ContextConstant;
+import com.kong.baidu.controller.Helper;
+import com.kong.baidu.controller.Suite;
+import com.kong.baidu.handle.CaseHandler;
 import com.kong.baidu.tasks.baiduLoginTask;
 import com.kong.util.LogUtil;
-import com.kong.util.XmlRulesDriver;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
@@ -30,14 +31,15 @@ public class loginCase {
     @Parameters({"baiduLoginCase", "baiduRoles"})
     @Test
     public void test(String paraFile, String paraRoles) {
-
-        driver = Suite.getDriver();
-        pagesMap = Suite.getPagesMap();
+//        TODO TestNG + Spring: not easy to manage suite or helper in each case code
+        Helper helper = CaseHandler.getInstance().getHelperContext(paraFile, paraRoles);
+        driver = (WebDriver) helper.getContext().get(ContextConstant.DRIVER_CONTEXT);
+        pagesMap = (Properties) helper.getContext().get(ContextConstant.PAGES_MAP_CONTEXT);
 
         logger.debug("Start loginCase test!");
         logger.debug("click loginCase button");
 
-        paraMap = ((TestCase) new XmlRulesDriver(paraFile, paraRoles).xml2Bean()).getParamMap();
+        paraMap = (HashMap<String, Object>) helper.getContext().get(ContextConstant.PARAM_MAP_CONTEXT);
 
         loginTask = new baiduLoginTask(driver, pagesMap);
         loginTask.openLoginDialog();

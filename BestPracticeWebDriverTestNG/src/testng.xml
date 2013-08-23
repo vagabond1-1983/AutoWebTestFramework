@@ -8,11 +8,11 @@
 <suite name="Test Baidu" verbose="1">
     <parameter name="setupParamProp" value="setupParam.properties"/>
     <parameter name="baiduPagesProp" value="baiduPages.properties"/>
-    <!--<test name="init baidu">
+    <test name="init baidu">
         <classes>
-            <class name="com.kong.baidu.Suite"/>
+            <class name="com.kong.baidu.controller.Suite"/>
         </classes>
-    </test>-->
+    </test>
     <test name="login baidu">
         <!--<parameter name="test" value="before test param"></parameter>-->
         <classes>
@@ -20,6 +20,20 @@
                 <methods>
                     <include name="test">
                         <parameter name="baiduLoginCase" value="baidu_se_para_login.xml"/>
+                        <parameter name="baiduRoles" value="baidu-rules.xml"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="search selenium in baidu">
+        <!--<parameter name="test" value="before test param"></parameter>-->
+        <classes>
+            <class name="com.kong.baidu.testCases.searchCase">
+                <methods>
+                    <include name="search">
+                        <parameter name="searchCase" value="baidu_se_para_search.xml"/>
                         <parameter name="baiduRoles" value="baidu-rules.xml"/>
                     </include>
                 </methods>

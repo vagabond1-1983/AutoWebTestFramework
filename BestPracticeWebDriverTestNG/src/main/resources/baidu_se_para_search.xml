@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<case>
+    <!-- Search String-->
+    <arg id="searchKeywordField" value="selenium">
+    </arg>
+
+    <arg id="searchButton">
+    </arg>
+</case>

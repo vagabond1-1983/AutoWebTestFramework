@@ -1,4 +1,4 @@
-package com.kong.baidu;
+package com.kong.baidu.controller;
 
 import com.kong.baidu.handle.Handler;
 import com.kong.baidu.handle.InitEnvHandler;
@@ -12,7 +12,6 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 
-import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
@@ -28,7 +27,17 @@ public class Suite {
     private static Properties pagesMap;
     private static String server = "127.0.0.1";
     private static Integer port = 4444;
+    private Helper helper = new Helper();
     public static Logger logger = LogUtil.getLogger(Suite.class);
+
+    private static Suite suite = new Suite();
+
+    private Suite() {
+    }
+
+    public static Suite getInstance() {
+        return suite;
+    }
 
     /**
      * Provide the driver which already created
@@ -53,10 +62,19 @@ public class Suite {
         driver = handler.handle(settings);
 
         setPagesMap(baiduPagesProp);
+
+
     }
 
     private void setPagesMap(String baiduPagesProp) {
         pagesMap = PropUtils.getProperties(baiduPagesProp);
+
+    }
+
+    public Helper getHelper() {
+        helper.putContext(ContextConstant.DRIVER_CONTEXT, driver);
+        helper.putContext(ContextConstant.PAGES_MAP_CONTEXT, pagesMap);
+        return helper;
     }
 
     public static Properties getPagesMap() {
