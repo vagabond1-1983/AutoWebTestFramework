@@ -14,24 +14,8 @@ import java.util.Properties;
  * Time: 10:10 PM
  * To change this template use File | Settings | File Templates.
  */
-public class searchTask {
-    private WebDriver driver;
-    private Properties pageElementsMap;
-    private SimulateAction simulateAction;
-
+public class searchTask extends commonTask {
     public searchTask(WebDriver driver, Properties pageElementsMap) {
-        this.driver = driver;
-        this.pageElementsMap = pageElementsMap;
-        simulateAction = new SimulateAction(this.driver);
-    }
-
-    public searchTask enterSearchKeyword(String searchKeywordTxtField, String searchKeywordValue) {
-        simulateAction.findActElm(searchKeywordTxtField, ActionType.INPUT, searchKeywordValue);
-        return this;
-    }
-
-    public searchTask clickSearchButton(String searchButtonField) {
-        simulateAction.findActElm(searchButtonField, ActionType.CLICK);
-        return this;
+        super(driver, pageElementsMap);
     }
 }
