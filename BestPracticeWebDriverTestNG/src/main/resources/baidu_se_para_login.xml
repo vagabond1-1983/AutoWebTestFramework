@@ -12,4 +12,6 @@
 
     <arg id="loginSubmitField">
     </arg>
+
+    <!--<arg id="capture" value="login baidu vagabond1_1983"></arg>-->
 </case>

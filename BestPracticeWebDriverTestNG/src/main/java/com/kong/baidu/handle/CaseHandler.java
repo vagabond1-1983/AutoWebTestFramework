@@ -24,7 +24,6 @@ public class CaseHandler {
         if (paraFile != null && RoleFile != null) {
             helper.putContext(ContextConstant.PARAM_MAP_CONTEXT, ((TestCase) new XmlRulesDriver(paraFile, RoleFile).xml2Bean()).getParamMap());
         }
-
         return helper;
     }
 

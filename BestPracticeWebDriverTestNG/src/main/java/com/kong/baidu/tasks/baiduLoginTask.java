@@ -25,23 +25,28 @@ public class baiduLoginTask {
         simulateAction = new SimulateAction(driver);
     }
 
-    public void openLoginDialog() {
-        simulateAction.findElm((String) pageElementsMap.get(baiduTestConstant.LOGIN_BUTTON_IN_PAGE), ActionType.CLICK);
+    public baiduLoginTask openLoginDialog(String loginDialogLinkField) {
+        simulateAction.findActElm(loginDialogLinkField, ActionType.CLICK);
+        return this;
     }
 
-    public void enterUserName(HashMap<String, Object> paraMap) {
-        simulateAction.findElm((String) pageElementsMap.get(baiduTestConstant.LOGIN_USERNAME_TXT_FIELD), ActionType.INPUT, (String) paraMap.get(baiduTestConstant.LOGIN_USERNAME_TXT_FIELD));
+    public baiduLoginTask enterUserName(String userNameTxtField, String userNameValue) {
+        simulateAction.findActElm(userNameTxtField, ActionType.INPUT, userNameValue);
+        return this;
     }
 
-    public void enterPassword(HashMap<String, Object> paraMap) {
-        simulateAction.findElm((String) pageElementsMap.get(baiduTestConstant.LOGIN_PASSWORD_TXT_FIELD), ActionType.INPUT, (String) paraMap.get(baiduTestConstant.LOGIN_PASSWORD_TXT_FIELD));
+    public baiduLoginTask enterPassword(String passwordTxtField, String passwordValue) {
+        simulateAction.findActElm(passwordTxtField, ActionType.INPUT, passwordValue);
+        return this;
     }
 
-    public void submit() {
-        simulateAction.findElm((String) pageElementsMap.get(baiduTestConstant.LOGIN_SUBMIT_BUTTON), ActionType.CLICK);
+    public baiduLoginTask submit(String loginButtonField) {
+        simulateAction.findActElm(loginButtonField, ActionType.CLICK);
+        return this;
     }
 
-    public void captureScreenshot() {
-//        simulateAction.findElm(captureLogin, ActionType.CAPTURE);
-    }
+    /*public baiduLoginTask captureScreenshot() {
+        simulateAction.findActElm(captureLogin, ActionType.CAPTURE);
+        return this;
+    }*/
 }

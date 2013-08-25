@@ -25,11 +25,13 @@ public class searchTask {
         simulateAction = new SimulateAction(this.driver);
     }
 
-    public void enterSearchKeyword(HashMap<String, Object> paraMap) {
-        simulateAction.findElm((String) pageElementsMap.get(baiduTestConstant.SEACH_KEYWORD_FIELD), ActionType.INPUT, (String) paraMap.get(baiduTestConstant.SEACH_KEYWORD_FIELD));
+    public searchTask enterSearchKeyword(String searchKeywordTxtField, String searchKeywordValue) {
+        simulateAction.findActElm(searchKeywordTxtField, ActionType.INPUT, searchKeywordValue);
+        return this;
     }
 
-    public void clickSearchButton() {
-        simulateAction.findElm((String) pageElementsMap.get(baiduTestConstant.SEACH_BUTTON), ActionType.CLICK);
+    public searchTask clickSearchButton(String searchButtonField) {
+        simulateAction.findActElm(searchButtonField, ActionType.CLICK);
+        return this;
     }
 }

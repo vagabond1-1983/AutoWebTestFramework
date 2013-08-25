@@ -1,6 +1,9 @@
 package com.kong.baidu.controller;
 
+import org.openqa.selenium.WebDriver;
+
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,4 +23,18 @@ public class Helper {
 
     private HashMap<String, Object> context = new HashMap<String, Object>();
 
+    public WebDriver getCurrentDriver() {
+        return (WebDriver) context.get(ContextConstant.DRIVER_CONTEXT);
+    }
+
+    public Properties getPagesMap() {
+        return (Properties) context.get(ContextConstant.PAGES_MAP_CONTEXT);
+    }
+
+    public HashMap<String, Object> getParamMap() {
+        if (context.get(ContextConstant.PARAM_MAP_CONTEXT) != null) {
+            return (HashMap<String, Object>) context.get(ContextConstant.PARAM_MAP_CONTEXT);
+        }
+        return null;
+    }
 }

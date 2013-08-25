@@ -1,7 +1,10 @@
 package com.kong.baidu.testCases;
 
+import com.kong.baidu.controller.Helper;
 import com.kong.baidu.controller.Suite;
+import com.kong.baidu.handle.CaseHandler;
 import com.kong.baidu.model.TestCase;
+import com.kong.baidu.tasks.baiduTestConstant;
 import com.kong.baidu.tasks.searchTask;
 import com.kong.util.LogUtil;
 import com.kong.util.XmlRulesDriver;
@@ -30,18 +33,17 @@ public class searchCase {
     @Parameters({"searchCase", "baiduRoles"})
     @Test
     public void search(String paraFile, String paraRoles) {
-
-        driver = Suite.getDriver();
-        pagesMap = Suite.getPagesMap();
+        Helper helper = CaseHandler.getInstance().getHelperContext(paraFile, paraRoles);
+        driver = helper.getCurrentDriver();
+        pagesMap = helper.getPagesMap();
 
         logger.debug("Start searchCase test!");
         logger.debug("click searchCase button");
 
-        paraMap = ((TestCase) new XmlRulesDriver(paraFile, paraRoles).xml2Bean()).getParamMap();
+        paraMap = helper.getParamMap();
 
         searchTask = new searchTask(driver, pagesMap);
-        searchTask.enterSearchKeyword(paraMap);
-        searchTask.clickSearchButton();
+        searchTask.enterSearchKeyword((String) pagesMap.get(baiduTestConstant.SEACH_KEYWORD_FIELD), (String) paraMap.get(baiduTestConstant.SEACH_KEYWORD_FIELD))
+                .clickSearchButton((String) pagesMap.get(baiduTestConstant.SEACH_BUTTON));
     }
-
 }

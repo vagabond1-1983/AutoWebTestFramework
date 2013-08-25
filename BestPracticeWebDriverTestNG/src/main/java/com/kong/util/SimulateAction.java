@@ -20,7 +20,7 @@ public class SimulateAction {
         this.driver = driver;
     }
 
-    public SimulateAction findElm(String expression, ActionType type, String... keywords) {
+    public SimulateAction findActElm(String expression, ActionType type, String... keywords) {
         if (type.equals(ActionType.CAPTURE)) {
             ImageUtil.captureScreenshot(driver, expression);
             return this;
