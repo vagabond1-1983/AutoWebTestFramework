@@ -7,7 +7,9 @@ import com.kong.baidu.tasks.baiduTestConstant;
 import com.kong.baidu.tasks.commonTask;
 import com.kong.util.LogUtil;
 import org.apache.logging.log4j.Logger;
+import org.bouncycastle.util.Strings;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -46,6 +48,10 @@ public class loginCase {
                 .enterValue2Element((String) pagesMap.get(baiduTestConstant.LOGIN_USERNAME_TXT_FIELD), (String) paraMap.get(baiduTestConstant.LOGIN_USERNAME_TXT_FIELD))
                 .enterValue2Element((String) pagesMap.get(baiduTestConstant.LOGIN_PASSWORD_TXT_FIELD), (String) paraMap.get(baiduTestConstant.LOGIN_PASSWORD_TXT_FIELD))
                 .clickElement((String) pagesMap.get(baiduTestConstant.LOGIN_SUBMIT_BUTTON));
+        if (paraMap.containsKey(baiduTestConstant.CAPTURE)) {
+            loginTask.captureScreenshot((String) paraMap.get(baiduTestConstant.CAPTURE));
+        }
+        Assert.assertTrue(loginTask.verifyField((String) pagesMap.get(baiduTestConstant.LOGIN_SUCCEED_USERNAME_FIELD), (String) paraMap.get(baiduTestConstant.LOGIN_USERNAME_TXT_FIELD)));
     }
 
 }
