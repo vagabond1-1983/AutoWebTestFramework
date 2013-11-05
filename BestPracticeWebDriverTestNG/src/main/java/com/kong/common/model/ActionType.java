@@ -1,4 +1,4 @@
-package com.kong.baidu.model;
+package com.kong.common.model;
 
 /**
  *

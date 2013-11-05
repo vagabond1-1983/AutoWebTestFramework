@@ -1,4 +1,4 @@
-package com.kong.baidu.model;
+package com.kong.common.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.List;
  * User: devin
  * Date: 8/12/13
  * Time: 10:13 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
 public class TestCase implements IBean {
     private HashMap<String, Object> paramMap;

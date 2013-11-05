@@ -1,9 +1,8 @@
-package com.kong.baidu.controller;
+package com.kong.common.controller;
 
-import com.kong.baidu.handle.Handler;
-import com.kong.baidu.handle.InitEnvHandler;
-import com.kong.baidu.model.IBean;
-import com.kong.baidu.model.Settings;
+import com.kong.common.handle.BrowserStartUpHandler;
+import com.kong.common.handle.Handler;
+import com.kong.common.model.IBean;
 import com.kong.util.LogUtil;
 import com.kong.util.PropUtils;
 import org.apache.logging.log4j.Logger;
@@ -19,15 +18,17 @@ import java.util.Properties;
  * User: devin
  * Date: 8/9/13
  * Time: 10:24 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
 public class Suite {
     private static WebDriver driver;
 
     private static Properties pagesMap;
-    private static String server = "127.0.0.1";
-    private static Integer port = 4444;
-    private Helper helper = new Helper();
+    // No need these two parameters.
+    // Devin 2013-11-05
+//    private static String server = "127.0.0.1";
+//    private static Integer port = 4444;
+    private ContextHelper contextHelper = new ContextHelper();
     public static Logger logger = LogUtil.getLogger(Suite.class);
 
     private static Suite suite = new Suite();
@@ -57,42 +58,28 @@ public class Suite {
     @Parameters({"setupParamProp", "baiduPagesProp"})
     @BeforeSuite(alwaysRun = true)
     public void setupBeforeSuite(String setupParamProp, String baiduPagesProp) {
-        IBean settings = getSettings(setupParamProp);
-        Handler handler = new InitEnvHandler();
-        driver = handler.handle(settings);
+        // Get the settings including server, port, url, browser
+        IBean settings = SetupProxy.getSettings(setupParamProp);
 
+        // Start up browser and put default url to browse
+        driver = new BrowserStartUpHandler().handle(settings);
+
+        // TODO review and clean up tomorrow 2013-11-05
         setPagesMap(baiduPagesProp);
-
-
     }
 
     private void setPagesMap(String baiduPagesProp) {
         pagesMap = PropUtils.getProperties(baiduPagesProp);
-
     }
 
-    public Helper getHelper() {
-        helper.putContext(ContextConstant.DRIVER_CONTEXT, driver);
-        helper.putContext(ContextConstant.PAGES_MAP_CONTEXT, pagesMap);
-        return helper;
+    public ContextHelper getContextHelper() {
+        contextHelper.putContext(ContextConstant.DRIVER_CONTEXT, driver);
+        contextHelper.putContext(ContextConstant.PAGES_MAP_CONTEXT, pagesMap);
+        return contextHelper;
     }
 
     public static Properties getPagesMap() {
         return pagesMap;
-    }
-
-    // Server settings
-    private IBean getSettings(String setupParamProp) {
-        Properties properties = PropUtils.getProperties(setupParamProp);
-        String browser = properties.getProperty("browser");
-        String server = properties.getProperty("server");
-        String port = properties.getProperty("port");
-        String url = properties.getProperty("url");
-        IBean settings = new Settings(browser, server, Integer.valueOf(port), url);
-        if (server != null) this.server = server;
-        if (port.matches("\\d+")) this.port = Integer.parseInt(port);
-        logger.debug(settings.toString());
-        return settings;
     }
 
     @AfterSuite

@@ -1,11 +1,11 @@
-package com.kong.baidu.model;
+package com.kong.common.model;
 
 /**
  * Created with IntelliJ IDEA.
  * User: devin
  * Date: 8/12/13
  * Time: 10:58 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
 public class Step {
     public Step() {

@@ -1,4 +1,4 @@
-package com.kong.baidu.controller;
+package com.kong.common.controller;
 
 import org.openqa.selenium.WebDriver;
 
@@ -10,9 +10,9 @@ import java.util.Properties;
  * User: devin
  * Date: 8/22/13
  * Time: 9:54 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
-public class Helper {
+public class ContextHelper {
     public HashMap<String, Object> getContext() {
         return context;
     }

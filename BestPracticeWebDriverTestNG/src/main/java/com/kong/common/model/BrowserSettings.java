@@ -1,16 +1,16 @@
-package com.kong.baidu.model;
+package com.kong.common.model;
 
-public class Settings implements IBean {
+public class BrowserSettings implements IBean {
     private String browser;
     private String server;
     private Integer port;
     private String url;
 
-    public Settings() {
+    public BrowserSettings() {
         super();
     }
 
-    public Settings(String browser, String server, Integer port, String url) {
+    public BrowserSettings(String browser, String server, Integer port, String url) {
         this.browser = browser;
         this.server = server;
         this.port = port;
@@ -51,7 +51,7 @@ public class Settings implements IBean {
 
     @Override
     public String toString() {
-        return "Settings [browser=" + browser + ", server=" + server
+        return "BrowserSettings [browser=" + browser + ", server=" + server
                 + ", port=" + port + ", url=" + url + "]";
     }
 }

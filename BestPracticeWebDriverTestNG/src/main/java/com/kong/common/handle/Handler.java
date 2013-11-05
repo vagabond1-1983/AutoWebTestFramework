@@ -1,6 +1,6 @@
-package com.kong.baidu.handle;
+package com.kong.common.handle;
 
-import com.kong.baidu.model.IBean;
+import com.kong.common.model.IBean;
 import org.openqa.selenium.WebDriver;
 
 
