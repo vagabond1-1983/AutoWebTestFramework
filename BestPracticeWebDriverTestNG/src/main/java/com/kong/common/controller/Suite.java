@@ -1,7 +1,6 @@
 package com.kong.common.controller;
 
 import com.kong.common.handle.BrowserStartUpHandler;
-import com.kong.common.handle.Handler;
 import com.kong.common.model.IBean;
 import com.kong.util.LogUtil;
 import com.kong.util.PropUtils;
@@ -28,7 +27,7 @@ public class Suite {
     // Devin 2013-11-05
 //    private static String server = "127.0.0.1";
 //    private static Integer port = 4444;
-    private ContextHelper contextHelper = new ContextHelper();
+    private ContextContainer contextContainer = new ContextContainer();
     public static Logger logger = LogUtil.getLogger(Suite.class);
 
     private static Suite suite = new Suite();
@@ -64,7 +63,6 @@ public class Suite {
         // Start up browser and put default url to browse
         driver = new BrowserStartUpHandler().handle(settings);
 
-        // TODO review and clean up tomorrow 2013-11-05
         setPagesMap(baiduPagesProp);
     }
 
@@ -72,10 +70,10 @@ public class Suite {
         pagesMap = PropUtils.getProperties(baiduPagesProp);
     }
 
-    public ContextHelper getContextHelper() {
-        contextHelper.putContext(ContextConstant.DRIVER_CONTEXT, driver);
-        contextHelper.putContext(ContextConstant.PAGES_MAP_CONTEXT, pagesMap);
-        return contextHelper;
+    public ContextContainer getContextContainer() {
+        contextContainer.putContext(ContextConstant.DRIVER_CONTEXT, driver);
+        contextContainer.putContext(ContextConstant.PAGES_MAP_CONTEXT, pagesMap);
+        return contextContainer;
     }
 
     public static Properties getPagesMap() {
@@ -88,6 +86,4 @@ public class Suite {
         if (driver != null)
             driver.quit();
     }
-
-
 }

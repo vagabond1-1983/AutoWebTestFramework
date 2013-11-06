@@ -12,7 +12,7 @@ import java.util.Properties;
  * Time: 9:54 PM
  * To change this template use File | BrowserSettings | File Templates.
  */
-public class ContextHelper {
+public class ContextContainer {
     public HashMap<String, Object> getContext() {
         return context;
     }
