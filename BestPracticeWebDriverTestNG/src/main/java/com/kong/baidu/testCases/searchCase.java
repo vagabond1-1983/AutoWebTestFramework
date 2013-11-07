@@ -1,14 +1,11 @@
 package com.kong.baidu.testCases;
 
-import com.kong.baidu.controller.Helper;
-import com.kong.baidu.controller.Suite;
-import com.kong.baidu.handle.CaseHandler;
-import com.kong.baidu.model.TestCase;
-import com.kong.baidu.tasks.baiduTestConstant;
-import com.kong.baidu.tasks.commonTask;
+import com.kong.baidu.tasks.PageConst;
+import com.kong.common.controller.ContextContainer;
+import com.kong.common.handle.CaseImportHandler;
+import com.kong.common.Tasks.commonTask;
 import com.kong.baidu.tasks.searchTask;
 import com.kong.util.LogUtil;
-import com.kong.util.XmlRulesDriver;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
@@ -22,11 +19,9 @@ import java.util.Properties;
  * User: devin
  * Date: 8/9/13
  * Time: 10:22 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
 public class searchCase {
-    private HashMap<String, Object> paraMap;
-    private Properties pagesMap;
     public static Logger logger = LogUtil.getLogger(searchCase.class);
     private WebDriver driver;
     private commonTask searchTask;
@@ -34,17 +29,14 @@ public class searchCase {
     @Parameters({"searchCase", "baiduRoles"})
     @Test
     public void search(String paraFile, String paraRoles) {
-        Helper helper = CaseHandler.getInstance().getHelperContext(paraFile, paraRoles);
-        driver = helper.getCurrentDriver();
-        pagesMap = helper.getPagesMap();
+        ContextContainer context = CaseImportHandler.getInstance().getContextContainer(paraFile, paraRoles);
+        driver = context.getCurrentDriver();
 
-        logger.debug("Start searchCase test!");
+        logger.debug("Start searchCase loginMainPage!");
         logger.debug("click searchCase button");
 
-        paraMap = helper.getParamMap();
-
-        searchTask = new searchTask(driver, pagesMap);
-        searchTask.enterValue2Element((String) pagesMap.get(baiduTestConstant.SEACH_KEYWORD_FIELD), (String) paraMap.get(baiduTestConstant.SEACH_KEYWORD_FIELD))
-                .clickElement((String) pagesMap.get(baiduTestConstant.SEACH_BUTTON));
+        searchTask = new searchTask(driver);
+        searchTask.enterValue2Element((String) context.getPageValue(PageConst.SEACH_KEYWORD_FIELD), (String) context.getParamValue(PageConst.SEACH_KEYWORD_FIELD))
+                .clickElement((String) context.getPageValue(PageConst.SEACH_BUTTON));
     }
 }

@@ -1,6 +1,7 @@
-package com.kong.util;
+package com.kong.util.webpage;
 
-import com.kong.baidu.model.ActionType;
+import com.kong.common.model.ActionType;
+import com.kong.util.ImageUtil;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +11,7 @@ import org.openqa.selenium.WebElement;
  * User: devin
  * Date: 8/10/13
  * Time: 10:37 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
 public class SimulateAction {
     private WebDriver driver;
@@ -35,6 +36,9 @@ public class SimulateAction {
                 break;
             case CLICK:
                 element.click();
+                break;
+            case SUBMIT:
+                element.submit();
                 break;
         }
         return this;

@@ -1,16 +1,13 @@
-package com.kong.util;
+package com.kong.util.webpage;
 
-import com.kong.baidu.model.IBean;
-import com.kong.baidu.model.TestCase;
+import com.kong.common.model.IBean;
+import com.kong.util.LogUtil;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.binder.DigesterLoader;
 import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 
 public class XmlRulesDriver {

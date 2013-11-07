@@ -1,5 +1,6 @@
-package com.kong.util;
+package com.kong.util.webpage;
 
+import com.kong.util.LogUtil;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * User: devin
  * Date: 7/24/13
  * Time: 9:41 PM
- * To change this template use File | Settings | File Templates.
+ * To change this template use File | BrowserSettings | File Templates.
  */
 public class WebElementsDigging {
 

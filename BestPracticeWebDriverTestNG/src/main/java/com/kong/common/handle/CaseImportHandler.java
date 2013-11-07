@@ -4,7 +4,7 @@ import com.kong.common.controller.ContextConstant;
 import com.kong.common.controller.ContextContainer;
 import com.kong.common.controller.Suite;
 import com.kong.common.model.TestCase;
-import com.kong.util.XmlRulesDriver;
+import com.kong.util.webpage.XmlRulesDriver;
 
 /**
  * Created with IntelliJ IDEA.
