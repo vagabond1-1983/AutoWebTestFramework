@@ -27,7 +27,6 @@ public class XmlRulesDriver {
         } else {
             throw new NullPointerException();
         }
-
     }
 
     private String getFilePath(String fileName) {
@@ -43,7 +42,6 @@ public class XmlRulesDriver {
     public IBean xml2Bean() {
         IBean bean = null;
         try {
-
             DigesterLoader loader = DigesterLoader.newLoader(new FromXmlRulesModule() {
                 @Override
                 protected void loadRules() {

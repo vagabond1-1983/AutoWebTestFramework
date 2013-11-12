@@ -3,6 +3,7 @@ package com.kong.util.webpage.Delay;
 import com.kong.util.webpage.JSExecution;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class PageUntilLoaded {
@@ -33,6 +34,6 @@ public class PageUntilLoaded {
 
     private static Object runningJSUnderCondition(WebDriver driver, String js) {
         WaitTillTimeOut.timeoutWait(driver);
-        return JSExecution.executeJS(driver, js);
+        return JSExecution.executeJS((JavascriptExecutor) driver, js);
     }
 }
