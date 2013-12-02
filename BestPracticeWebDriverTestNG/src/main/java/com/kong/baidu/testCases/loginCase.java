@@ -1,14 +1,16 @@
 package com.kong.baidu.testCases;
 
+import com.kong.baidu.pageObjects.LoginPage;
 import com.kong.baidu.tasks.PageConst;
 import com.kong.common.controller.ContextContainer;
 import com.kong.common.handle.CaseImportHandler;
 import com.kong.baidu.tasks.baiduLoginTask;
 import com.kong.common.Tasks.commonTask;
-import com.kong.util.LogUtil;
+import com.kong.util.log.LogUtil;
 import com.kong.util.webpage.Delay.PageUntilLoaded;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -35,8 +37,11 @@ public class loginCase {
         logger.debug("Start loginCase loginMainPage!");
         logger.debug("click loginCase button");
 
+//        driver.manage().window().maximize();
+        pageObjectLogin(context);
 
-        loginTask = new baiduLoginTask(driver);
+
+        /*loginTask = new baiduLoginTask(driver);
         loginTask.clickElement((String) context.getPageValue(PageConst.LOGIN_BUTTON_IN_PAGE))
                 .enterValue2Element((String) context.getPageValue(PageConst.LOGIN_USERNAME_TXT_FIELD), (String) context.getParamValue(PageConst.LOGIN_USERNAME_TXT_FIELD))
                 .enterValue2Element((String) context.getPageValue(PageConst.LOGIN_PASSWORD_TXT_FIELD), (String) context.getParamValue(PageConst.LOGIN_PASSWORD_TXT_FIELD))
@@ -46,10 +51,10 @@ public class loginCase {
         // Driver is pointed to sub frame not the main frame.
         // First wait the click action happened then judge the page is loaded
         // If not, continue to wait. If yes, then next.
-        /*do {
+        *//*do {
 
             Thread.sleep(5000);
-        } while ((Boolean) ((JavascriptExecutor) driver).executeScript("return document.readyState == 'completed'"));*/
+        } while ((Boolean) ((JavascriptExecutor) driver).executeScript("return document.readyState == 'completed'"));*//*
         PageUntilLoaded.pageLoaded(driver);
 
         if (null != context.getParamValue(PageConst.CAPTURE)) {
@@ -58,6 +63,15 @@ public class loginCase {
 
         if (null != context.getParamValue(PageConst.VERIFY)) {
             Assert.assertTrue(loginTask.verifyField((String) context.getPageValue(PageConst.LOGIN_SUCCEED_USERNAME_FIELD), (String) context.getParamValue(PageConst.VERIFY)));
-        }
+        }*/
+    }
+
+    public void pageObjectLogin(ContextContainer context) {
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        loginPage.loginForm((String) context.getParamValue(PageConst.LOGIN_USERNAME_TXT_FIELD), (String) context.getParamValue(PageConst.LOGIN_PASSWORD_TXT_FIELD));
+
+        PageUntilLoaded.pageLoaded(driver);
+
+        Assert.assertTrue(loginPage.isLogin());
     }
 }
