@@ -11,7 +11,7 @@ import org.openqa.selenium.support.How;
  * Time: 10:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoginPage {
+public class LoginPage implements ILogin {
     @FindBy(how = How.ID, using = "lb")
     private WebElement loginPopLink;
 
@@ -29,6 +29,7 @@ public class LoginPage {
 
     private String usernameFieldValue = null;
 
+    @Override
     public void loginForm(String username, String password) {
         loginPopLink.click();
 
@@ -42,6 +43,7 @@ public class LoginPage {
         submit.submit();
     }
 
+    @Override
     public boolean isLogin() {
         return userNameSuccessShow.getText().contains(revMail(usernameFieldValue));
     }

@@ -21,10 +21,10 @@
                     <include name="loginMainPage">
                         <parameter name="baiduLoginCase" value="baidu_se_para_login.xml"/>
                         <parameter name="baiduRoles" value="baidu-rules.xml"/>
+                        <parameter name="loginPage" value="com.kong.baidu.pageObjects.LoginPage"/>
                     </include>
                 </methods>
             </class>
-            f
         </classes>
     </test>
 

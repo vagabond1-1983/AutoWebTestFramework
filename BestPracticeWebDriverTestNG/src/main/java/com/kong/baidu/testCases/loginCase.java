@@ -1,10 +1,9 @@
 package com.kong.baidu.testCases;
 
-import com.kong.baidu.pageObjects.LoginPage;
+import com.kong.baidu.pageObjects.ILogin;
 import com.kong.baidu.tasks.PageConst;
 import com.kong.common.controller.ContextContainer;
 import com.kong.common.handle.CaseImportHandler;
-import com.kong.baidu.tasks.baiduLoginTask;
 import com.kong.common.Tasks.commonTask;
 import com.kong.util.log.LogUtil;
 import com.kong.util.webpage.Delay.PageUntilLoaded;
@@ -27,9 +26,9 @@ public class loginCase {
     private WebDriver driver;
     private commonTask loginTask;
 
-    @Parameters({"baiduLoginCase", "baiduRoles"})
+    @Parameters({"baiduLoginCase", "baiduRoles", "loginPage"})
     @Test
-    public void loginMainPage(String paraFile, String paraRoles) throws InterruptedException {
+    public void loginMainPage(String paraFile, String paraRoles, String loginPage) throws InterruptedException {
 //        TODO TestNG + Spring: not easy to manage suite or contextContainer in each case code
         ContextContainer context = CaseImportHandler.getInstance().getContextContainer(paraFile, paraRoles);
         driver = context.getCurrentDriver();
@@ -38,7 +37,11 @@ public class loginCase {
         logger.debug("click loginCase button");
 
 //        driver.manage().window().maximize();
-        pageObjectLogin(context);
+        try {
+            pageObjectLogin(context, Class.forName(loginPage));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
 
         /*loginTask = new baiduLoginTask(driver);
@@ -66,12 +69,12 @@ public class loginCase {
         }*/
     }
 
-    public void pageObjectLogin(ContextContainer context) {
-        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-        loginPage.loginForm((String) context.getParamValue(PageConst.LOGIN_USERNAME_TXT_FIELD), (String) context.getParamValue(PageConst.LOGIN_PASSWORD_TXT_FIELD));
+    public void pageObjectLogin(ContextContainer context, Class<?> loginPageClass) {
+        ILogin iLogin = (ILogin) PageFactory.initElements(driver, loginPageClass);
+        iLogin.loginForm((String) context.getParamValue(PageConst.LOGIN_USERNAME_TXT_FIELD), (String) context.getParamValue(PageConst.LOGIN_PASSWORD_TXT_FIELD));
 
         PageUntilLoaded.pageLoaded(driver);
 
-        Assert.assertTrue(loginPage.isLogin());
+        Assert.assertTrue(iLogin.isLogin());
     }
 }
