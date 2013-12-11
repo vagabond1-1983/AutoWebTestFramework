@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<case>
+    <!-- Search String-->
+    <arg id="loginBtn">
+    </arg>
+
+    <arg id="loginUserNameTxtField" value="vagabond1_1983@163.com">
+    </arg>
+
+    <arg id="loginPasswordTxtField" value="Vagabond1">
+    </arg>
+
+    <arg id="loginSubmitField">
+    </arg>
+
+    <arg id="capture" value="login baidu vagabond1_1983"></arg>
+    <arg id="verify" value="vagabond1_1983"></arg>
+</case>
