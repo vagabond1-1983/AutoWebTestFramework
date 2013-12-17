@@ -1,6 +1,7 @@
 package com.kong.common.controller;
 
 import com.kong.common.handle.BrowserStartUpHandler;
+import com.kong.common.handle.Helper.ActionHelper;
 import com.kong.common.model.BrowserSettings;
 import com.kong.common.model.IBean;
 import com.kong.common.model.JQueryEntity;
@@ -29,6 +30,7 @@ public class Suite {
     private static WebDriver driver;
     private static JQuery jQuery;
     private static Properties pagesMap;
+    private static ActionHelper actionHelper;
     // No need these two parameters.
     // Devin 2013-11-05
 //    private static String server = "127.0.0.1";
@@ -83,6 +85,11 @@ public class Suite {
             }
         }
 
+        // Devin Dec 13 2013
+        // Add ActionHelper into context container. It will help to deal with some common aciton like capture screen, submit, click,
+        // who do not want define them in their page object class
+        actionHelper = new ActionHelper(driver);
+
         setPagesMap(baiduPagesProp);
     }
 
@@ -91,9 +98,11 @@ public class Suite {
     }
 
     public ContextContainer getContextContainer() {
-        contextContainer.putContext(ContextConstant.DRIVER_CONTEXT, driver);
-        contextContainer.putContext(ContextConstant.PAGES_MAP_CONTEXT, pagesMap);
-        contextContainer.putContext(ContextConstant.JQUERY_CONTEXT, jQuery);
+        contextContainer.putContext(ContextContainer.DRIVER, driver);
+        contextContainer.putContext(ContextContainer.PAGES_MAP, pagesMap);
+        contextContainer.putContext(ContextContainer.JQUERY, jQuery);
+        contextContainer.putContext(ContextContainer.ACTION_HELPER, actionHelper);
+
         return contextContainer;
     }
 

@@ -1,5 +1,6 @@
 package com.kong.common.controller;
 
+import com.kong.common.model.IBean;
 import org.openqa.selenium.WebDriver;
 
 import java.util.HashMap;
@@ -18,6 +19,18 @@ import java.util.Properties;
 public class ContextContainer {
     private HashMap<String, Object> context = new HashMap<String, Object>();
 
+    public static final String DRIVER = "driver";
+    public static final String JQUERY = "jQuery";
+    public static final String PAGES_MAP = "pagesMap";
+    public static final String PARAM_MAP = "paramsMap";
+
+    public static final String ACTION_HELPER = "actionHelper";
+
+    public static final String SCENARIO_OBJECT = "scenarioObject";
+
+    public static final String SERVER_IP = "127.0.0.1";
+    public static final Integer SERVER_PORT = 4444;
+
     public HashMap<String, Object> getContext() {
         return context;
     }
@@ -27,16 +40,16 @@ public class ContextContainer {
     }
 
     public WebDriver getCurrentDriver() {
-        return (WebDriver) context.get(ContextConstant.DRIVER_CONTEXT);
+        return (WebDriver) context.get(DRIVER);
     }
 
     public Properties getPagesMap() {
-        return (Properties) context.get(ContextConstant.PAGES_MAP_CONTEXT);
+        return (Properties) context.get(PAGES_MAP);
     }
 
     public Map<String, Object> getParamMap() {
-        if (context.get(ContextConstant.PARAM_MAP_CONTEXT) != null) {
-            return (Map<String, Object>) context.get(ContextConstant.PARAM_MAP_CONTEXT);
+        if (context.get(PARAM_MAP) != null) {
+            return (Map<String, Object>) context.get(PARAM_MAP);
         }
         return null;
     }
@@ -53,6 +66,13 @@ public class ContextContainer {
             throw new NullPointerException("The key: " + key + " did not find in Params Map");
         }
         return getValue(getParamMap(), key);
+    }
+
+    public IBean getScenarioBean() {
+        if(context.containsKey(SCENARIO_OBJECT)) {
+            return (IBean)context.get(SCENARIO_OBJECT);
+        }
+        return null;
     }
 
     private Object getValue(Map map, String key) {

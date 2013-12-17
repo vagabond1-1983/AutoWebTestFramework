@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Devin Dec 13 2013
+Change way following baidu_login_case.xml-->
+<!--
+@Description:
+    One indepentant case for search baidu function. Enter keywords in search box,
+    click search button.
+@Author:
+    Devin
+@Time:
+    Dec 13 2013
+-->
+<Scenario name="Search baidu function test">
+    <!-- jQuery is default object which already exist in context container. No need to pre define and runJs will run jquery words. -->
+    <!-- Devin Dec 16 2013 While enter params and invoke runJs get this exception out
+    java.lang.IllegalArgumentException: wrong number of arguments
+    This is because runJs has two parameters which correct into two methods. One to get only one parameter as script
+    Dec 17 2013 after running jQuery('#kw').val('selenium'); no response from baidu.
+    This is because the method written not right in js.executeScript(script, args), args should not be null-->
+
+    <StepInfo name="Enter keywords in search box of baidu" refInstance="jQuery" method="runJs"
+              params="jQuery('#kw').val('selenium');"/>
+    <StepInfo name="Click search button" refInstance="jQuery" method="runJs" params="jQuery('#su').click();"/>
+</Scenario>
+<!--
+<case>
+    &lt;!&ndash; Search String&ndash;&gt;
+    &lt;!&ndash;
+    <arg id="searchKeywordField" value="selenium">
+    </arg>
+
+    <arg id="searchButton">
+    </arg>
+    &ndash;&gt;
+
+    &lt;!&ndash;jquery way test&ndash;&gt;
+    <arg id="jquery_kw" value="jQuery('#kw').val('软件测试');">
+    </arg>
+
+    <arg id="jquery_su" value="jQuery('#su').click();">
+    </arg>
+</case>-->

@@ -24,9 +24,9 @@ public class SetupProxy {
         String jquery = properties.getProperty("jquery");
 
         if (null == server)
-            server = ContextConstant.SERVER_IP;
+            server = ContextContainer.SERVER_IP;
         if (!port.matches("\\d+"))
-            port = String.valueOf(ContextConstant.SERVER_PORT);
+            port = String.valueOf(ContextContainer.SERVER_PORT);
 
         IBean browserSettings = new BrowserSettings(browser, server, Integer.valueOf(port), url);
         IBean jqueryEntity = new JQueryEntity(jquery);

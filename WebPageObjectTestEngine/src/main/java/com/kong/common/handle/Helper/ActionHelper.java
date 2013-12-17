@@ -1,4 +1,4 @@
-package com.kong.common.Tasks;
+package com.kong.common.handle.Helper;
 
 import com.kong.common.model.ActionType;
 import com.kong.util.image.ImageUtil;
@@ -15,13 +15,13 @@ import org.openqa.selenium.WebElement;
  * Time: 10:31 PM
  * To change this template use File | BrowserSettings | File Templates.
  */
-public abstract class commonTask {
-    private static final Logger logger = LogUtil.getLogger(commonTask.class);
+public class ActionHelper {
+    private static final Logger logger = LogUtil.getLogger(ActionHelper.class);
 
     protected WebDriver driver;
     protected SimulateAction simulateAction;
 
-    public commonTask(WebDriver driver) {
+    public ActionHelper(WebDriver driver) {
         this.driver = driver;
         simulateAction = new SimulateAction(driver);
     }
@@ -32,12 +32,12 @@ public abstract class commonTask {
      * @param elementField from pagesMap: page element in GUI
      * @return
      */
-    public commonTask clickElement(String elementField) {
+    public ActionHelper clickElement(String elementField) {
         simulateAction.findActElm(elementField, ActionType.CLICK);
         return this;
     }
 
-    public commonTask submitForm(String formField) {
+    public ActionHelper submitForm(String formField) {
         simulateAction.findActElm(formField, ActionType.SUBMIT);
         return this;
     }
@@ -49,13 +49,12 @@ public abstract class commonTask {
      * @param value        from paramsMap: value in case xml defined
      * @return
      */
-    public commonTask enterValue2Element(String elementField, String value) {
+    public ActionHelper enterValue2Element(String elementField, String value) {
         simulateAction.findActElm(elementField, ActionType.INPUT, value);
         return this;
     }
 
-    public commonTask captureScreenshot(String value) {
-        // TODO simulateAction interface not direct calling ImageUtil
+    public ActionHelper captureScreenshot(String value) {
         ImageUtil.captureScreenshot(driver, value);
         return this;
     }

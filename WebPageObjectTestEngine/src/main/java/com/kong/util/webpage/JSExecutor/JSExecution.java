@@ -17,6 +17,12 @@ public class JSExecution {
     }
 
     private static String loadScript(String javascript) {
+        // Devin Dec 16 2013
+        // parameter is null
+        if(null == javascript) {
+            return null;
+        }
+
         String strScript = null;
         if (!javascript.endsWith(".js")) {
             return javascript;
@@ -54,6 +60,9 @@ public class JSExecution {
 
     public static Object executeJS(JavascriptExecutor js, String script, Object[] args) {
         script = loadScript(script);
+        if(null == args) {
+            throw new RuntimeException("when call executescript for JavascriptExecutor, parameter should not be null.");
+        }
         return js.executeScript(script, args);
     }
 }

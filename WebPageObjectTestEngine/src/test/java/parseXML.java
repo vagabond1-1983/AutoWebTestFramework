@@ -28,7 +28,7 @@ public class parseXML {
         XmlRulesDriver dataDriver = new XmlRulesDriver(inputFile, roleFile);
         CaseScenario onecase = (CaseScenario)dataDriver.xml2Bean();
         for(StepInfo si : onecase.getStepInfos()) {
-            si.stepExecute();
+            si.stepExecute(null, null);
         }
     }
 }

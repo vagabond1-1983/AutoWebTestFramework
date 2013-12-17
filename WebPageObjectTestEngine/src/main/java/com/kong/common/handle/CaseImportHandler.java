@@ -1,9 +1,7 @@
 package com.kong.common.handle;
 
-import com.kong.common.controller.ContextConstant;
 import com.kong.common.controller.ContextContainer;
 import com.kong.common.controller.Suite;
-import com.kong.common.model.TestCase;
 import com.kong.util.xmlDataParsing.XmlRulesDriver;
 
 /**
@@ -30,7 +28,8 @@ public class CaseImportHandler {
      */
     public ContextContainer getContextContainer(String paraFile, String RoleFile) {
         if (paraFile != null && RoleFile != null) {
-            contextContainer.putContext(ContextConstant.PARAM_MAP_CONTEXT, ((TestCase) new XmlRulesDriver(paraFile, RoleFile).xml2Bean()).getParamMap());
+            //contextContainer.putContext(ContextConstant.PARAM_MAP, ((TestCase) new XmlRulesDriver(paraFile, RoleFile).xml2Bean()).getParamMap());
+            contextContainer.putContext(ContextContainer.SCENARIO_OBJECT, new XmlRulesDriver(paraFile, RoleFile).xml2Bean());
         }
         return contextContainer;
     }

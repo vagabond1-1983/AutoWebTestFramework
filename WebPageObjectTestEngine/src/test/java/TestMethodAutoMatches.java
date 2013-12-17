@@ -13,7 +13,7 @@ public class TestMethodAutoMatches {
     public void methodExecTest() {
         try {
             Class<?> clazz = Class.forName("com.LoginPage");
-            MethodAutoMatches.methodExec(clazz, "loginForm", "vagabond1_1983@163.com", "Vagabond1");
+            MethodAutoMatches.methodExec(null, clazz, "loginForm", "vagabond1_1983@163.com", "Vagabond1");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

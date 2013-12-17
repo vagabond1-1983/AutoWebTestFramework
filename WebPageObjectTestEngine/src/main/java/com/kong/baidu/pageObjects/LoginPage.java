@@ -1,5 +1,6 @@
 package com.kong.baidu.pageObjects;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -27,11 +28,28 @@ public class LoginPage implements ILogin {
     @FindBy(how = How.ID, using = "s_username_top")
     private WebElement userNameSuccessShow;
 
+    @FindBy(how = How.ID, using = "passport-login-pop")
+    private WebElement passwordLoginPopup;
+
     private String usernameFieldValue = null;
 
     @Override
     public void loginForm(String username, String password) {
-        loginPopLink.click();
+            try {
+                loginPopLink.click();
+                //TODO Devin
+                // Sometimes login pop not start even if refresh page....
+                // Try to find way to invoke this like run js
+                while(!passwordLoginPopup.isDisplayed()) {
+                    Thread.sleep(5000);
+                    loginPopLink.click();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch(NoSuchElementException e) {
+                loginForm(username, password);
+            }
+
 
         if (null != username) {
             usernameFieldValue = username;
@@ -45,6 +63,12 @@ public class LoginPage implements ILogin {
 
     @Override
     public boolean isLogin(String expectValue) {
+        //Debug
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         return userNameSuccessShow.getText().contains(expectValue);
     }
 }

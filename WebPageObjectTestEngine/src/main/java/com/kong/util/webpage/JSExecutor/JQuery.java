@@ -71,4 +71,11 @@ public class JQuery {
         initJQuery();
         return JSExecution.executeJS(driver, script, args);
     }
+
+    // Devin Dec 16 2013
+    // There is only script without parameters following with script to execute
+    public Object runJs(String script) {
+        initJQuery();
+        return JSExecution.executeJS(driver, script);
+    }
 }

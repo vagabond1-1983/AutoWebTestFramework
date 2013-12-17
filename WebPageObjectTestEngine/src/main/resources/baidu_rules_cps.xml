@@ -4,10 +4,13 @@
         "http://commons.apache.org/digester/dtds/digester-rules-3.0.dtd">
 <digester-rules>
     <pattern value="Scenario">
-        <object-create-rule classname="com.com.kong.common.model.CaseScenario"/>
+        <object-create-rule classname="com.kong.common.model.CaseScenario"/>
+        <set-properties-rule>
+            <alias attr-name="name" prop-name="name"></alias>
+        </set-properties-rule>
     </pattern>
     <pattern value="Scenario/PageInfo">
-        <object-create-rule classname="com.com.kong.common.model.PageInfo"/>
+        <object-create-rule classname="com.kong.common.model.PageInfo"/>
         <set-properties-rule>
             <alias attr-name="name" prop-name="name"></alias>
             <alias attr-name="classpath" prop-name="classpath"></alias>
@@ -17,7 +20,7 @@
 
     </pattern>
     <pattern value="Scenario/StepInfo">
-        <object-create-rule classname="com.com.kong.common.model.StepInfo"/>
+        <object-create-rule classname="com.kong.common.model.StepInfo"/>
         <set-properties-rule>
             <alias attr-name="name" prop-name="name"></alias>
             <alias attr-name="refInstance" prop-name="refInstance"></alias>

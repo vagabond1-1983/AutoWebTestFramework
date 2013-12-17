@@ -36,6 +36,10 @@ public class BrowserStartUpHandler extends Handler {
 
         logger.debug("Selenium server started!");
         driver.get(((BrowserSettings) settings).getUrl());
+
+        // Devin Dec 15 2013
+        // When start to access first url then max window.
+        driver.manage().window().maximize();
         return driver;
     }
 

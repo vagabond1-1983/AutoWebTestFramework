@@ -9,14 +9,12 @@
     @Time:
         Dec 09 2013
 -->
-<Scenario>
+<Scenario name="login baidu function test">
     <!-- Search String-->
-    <!--TODO Design to default instance in project level. No need define in each scenario later-->
-    <PageInfo name="common" classpath="com.kong.common.Tasks.commonTask" />
     <PageInfo name="loginPage" classpath="com.kong.baidu.pageObjects.LoginPage"/>
     <StepInfo name="login baidu for email and password" refInstance="loginPage" method="loginForm"
           params="username=vagabond1_1983@163.com||password=Vagabond1"/>
-    <StepInfo name="capture screen" refInstance="common" method="captureScreenshot" params="login baidu vagabond1_1983"/>
+    <StepInfo name="capture screen" refInstance="actionHelper" method="captureScreenshot" params="login baidu vagabond1_1983"/>
     <StepInfo name="verify login succeed" refInstance="loginPage" method="isLogin" params="expectValue=vagabond1_1983"/>
     <!--<arg id="loginBtn">
     </arg>

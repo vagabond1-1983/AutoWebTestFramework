@@ -171,7 +171,6 @@ public class WebElementsDigging {
 
         we = elements.get(position);
 
-        // TODO What if the value does not get from text, like attribute value
         if (we.getText().equals(value)) {
             findTargetElementFlag = true;
             logger.debug("Get the match by text. WEB ELEMENT @EXPRESSION:" + expression);
@@ -252,7 +251,7 @@ public class WebElementsDigging {
                 for (WebElement we : firstParts) {
                     // Based on first part, find the rest of element
                     // Using [1] format to replace all regex, then find the whole path
-                    // TODO What if it is not follow the xpath way?
+                    // What if it is not follow the xpath way?
                     String wholePart = supportSplitPath.buildWholePath("[" + String.valueOf(count) + "]");
 
                     // Find the first element after searching the whole part

@@ -11,6 +11,16 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class CaseScenario implements IBean {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private List<PageInfo> PageInfos = new LinkedList<PageInfo>();
     private List<StepInfo> StepInfos = new LinkedList<StepInfo>();
 

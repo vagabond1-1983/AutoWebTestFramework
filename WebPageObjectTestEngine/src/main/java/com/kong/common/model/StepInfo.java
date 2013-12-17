@@ -1,8 +1,10 @@
 package com.kong.common.model;
 
+import com.kong.common.controller.ContextContainer;
 import com.kong.util.log.LogUtil;
 import com.kong.util.xmlDataParsing.MethodAutoMatches;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,21 +66,40 @@ public class StepInfo {
      * It will detect all parameters and then combined class, method, params together to run. It already has scenario object.
      * @return
      */
-    public Object stepExecute() {
+    public Object stepExecute(WebDriver driver, ContextContainer context) {
+        Class<?> targetClass = null;
+        Object targetInstance = null;
         // log start to execute which step name
         logger.debug("Start execute step: " + this.name);
         Object result = null;
-        // refInstance exist or not. If has, look up instance in current scenario
+        // refInstance exist or not. If has, look up instance in current scenario or context in project
         if(null != this.refInstance) {
             if(null != this.scenario) {
+                // Devin Dec 15 2013
+                // First to get instance based on input refInstance. Find it in Page Object of pre-defined path
+                // or context container
                 if(null != this.refInstance) {
-                    Class<?> targetClass = this.scenario.findPageObjectClass(this.refInstance);
+                    targetClass = this.scenario.findPageObjectClass(this.refInstance);
+                    if(null == targetClass) {
+                        targetInstance = context.getContext().get(this.refInstance);
+                        if(null == targetInstance) {
+                            throw new RuntimeException("Target instance:" + this.refInstance + " does not find in Page Objects and context container. Please correct your refInstance on scenario " + this.scenario.getName());
+                        }
+                        logger.debug("Find target instance: " + this.refInstance);
+                    }
+
                     if(null != this.method) {
-                        //      separate params from string
+                        // Separate params from string
                         Object[] paramsArray = handleParamsIntoObjectArray();
-                        //          push params to methods
+                        // Push params to methods
                         logger.debug("Try to execute method: " + this.method + " under instance: " + this.refInstance);
-                        result = MethodAutoMatches.methodExec(targetClass, this.method, paramsArray);
+                        // Devin Dec 15 2013
+                        // Try to execute method for instance
+                        if(null != targetClass)
+                            result = MethodAutoMatches.methodExec(driver, targetClass, this.method, paramsArray);
+                        else {
+                            result = MethodAutoMatches.methodExec(driver, targetInstance, this.method, paramsArray);
+                        }
                         if(null != result) {
                             logger.debug("After method: " + this.method + " executed, get the result: " + result.toString());
                         }
@@ -95,6 +116,17 @@ public class StepInfo {
         // If not, include default handler
         }*/
         return result;
+    }
+
+    private Class<?> findTargetClass(String refInstance, ContextContainer context) {
+        Class<?> target = null;
+
+        target = this.scenario.findPageObjectClass(this.refInstance);
+
+        if(null == target) {
+            target = (Class<?>)context.getContext().get(refInstance);
+        }
+        return target;  //To change body of created methods use File | Settings | File Templates.
     }
 
     private Object[] handleParamsIntoObjectArray() {

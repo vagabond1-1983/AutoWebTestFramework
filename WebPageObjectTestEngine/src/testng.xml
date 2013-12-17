@@ -2,7 +2,7 @@
 
 <!--
 1. Simple for testng, especially parameter
-2. Simple for log4j, log output
+2. Simple for log4j, log output  TODO Dec 31 2013 Need more useful, readful report for the whole results
 3. Simple for web driver...
 -->
 <suite name="Test Baidu" verbose="1">
@@ -13,15 +13,20 @@
             <class name="com.kong.common.controller.Suite"/>
         </classes>
     </test>
+    <!-- Now we have common instance to take some action. Instance i.e. actionHelper, jQuery
+    actionHelper = com.kong.common.handle.Helper.ActionHelper; Methods: captureScreenshot, clickElement...
+    jQuery = com.kong.util.webpage.JSExecutor.JQuery; Methods: runJs
+    -->
     <test name="login baidu">
-        <!--<parameter name="loginMainPage" value="before loginMainPage param"></parameter>-->
         <classes>
-            <class name="com.kong.baidu.testCases.loginCase">
+            <!-- Dec 15 2013 debug why login dialog sometimes not popup after click login link?
+            Let passport login popup is displayed to judge if need more click login link or not.
+            If yes, click more while break after 5 seconds.  -->
+            <class name="com.kong.common.controller.ScenarioController">
                 <methods>
-                    <include name="loginMainPage">
-                        <parameter name="baiduLoginCase" value="baidu_se_para_login.xml"/>
-                        <parameter name="baiduRoles" value="baidu-rules.xml"/>
-                        <parameter name="loginPage" value="com.kong.baidu.pageObjects.LoginPage"/>
+                    <include name="scenarioTransaction">
+                        <parameter name="scenarioFileName" value="baidu_login_case.xml"/>
+                        <parameter name="roleFileName" value="baidu_rules_cps.xml"/>
                     </include>
                 </methods>
             </class>
@@ -31,11 +36,13 @@
     <test name="search selenium in baidu">
         <!--<parameter name="loginMainPage" value="before loginMainPage param"></parameter>-->
         <classes>
-            <class name="com.kong.baidu.testCases.searchCase">
+            <!--Dec 15 2013 debug why cannot run twice? Can be run. Before it cannot be run because capture screen function has exception when run to that
+            . So it is stopped at that point. After added some code then the second test can be run.-->
+            <class name="com.kong.common.controller.ScenarioController">
                 <methods>
-                    <include name="search">
-                        <parameter name="searchCase" value="baidu_se_para_search.xml"/>
-                        <parameter name="baiduRoles" value="baidu-rules.xml"/>
+                    <include name="scenarioTransaction">
+                        <parameter name="scenarioFileName" value="baidu_search_case.xml"/>
+                        <parameter name="roleFileName" value="baidu_rules_cps.xml"/>
                     </include>
                 </methods>
             </class>
